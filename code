@@ -1,0 +1,64 @@
+# naive bayes classifier
+from ucimlrepo import fetch_ucirepo 
+  
+# fetch dataset 
+spambase = fetch_ucirepo(id=94) 
+  
+# data (as pandas dataframes) 
+X = spambase.data.features 
+y = spambase.data.targets 
+  
+# metadata 
+print(spambase.metadata) 
+  
+# variable information 
+print(spambase.variables) 
+
+# splitting X and y into training and testing sets
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=1)
+  
+# training the model on training set
+from sklearn.naive_bayes import GaussianNB
+gnb = GaussianNB()
+gnb.fit(X_train, y_train)
+  
+# making predictions on the testing set
+y_pred = gnb.predict(X_test)
+  
+# comparing actual response values (y_test) with predicted response values (y_pred)
+from sklearn import metrics
+
+print("accuracy(%):", metrics.accuracy_score(y_test, y_pred)*100)
+precision = precision_score(y_test, y_pred, average='binary')  # Use 'binary' for binary classification
+recall = recall_score(y_test, y_pred, average='binary')
+
+print("Precision(%):", precision*100)
+print("Recall(%):", recall*100)
+
+# Random Forest Classifier
+
+# Data Processing
+import pandas as pd
+import numpy as np
+
+# Modelling
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix, precision_score, recall_score, ConfusionMatrixDisplay
+from sklearn.model_selection import RandomizedSearchCV
+from scipy.stats import randint
+
+rf = RandomForestClassifier()
+rf.fit(X_train, y_train)
+
+
+
+y_pred = rf.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy:", accuracy*100)
+
+precision = precision_score(y_test, y_pred)
+recall = recall_score(y_test, y_pred)
+
+print("Precision:", precision*100)
+print("Recall:", recall*100)
